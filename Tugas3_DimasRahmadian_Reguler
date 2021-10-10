@@ -1,0 +1,165 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled0.ipynb",
+      "provenance": [],
+      "authorship_tag": "ABX9TyOURYkezJ1qT9LSFJfcy1cV",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Dimrah/dimrah/blob/master/Tugas3_DimasRahmadian_Reguler\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Y-WuqrcanFo1",
+        "outputId": "6f502f59-fd4f-4bbb-9488-e628daa3abaf"
+      },
+      "source": [
+        "\n",
+        "file = open('tes.txt', encoding='utf8')\n",
+        "read = file.read()\n",
+        "file.seek(0)\n",
+        "read\n",
+        "\n",
+        "line = 1\n",
+        "for word in read:\n",
+        "\tif word == '\\n':\n",
+        "\t\tline += 1\n",
+        "print(\"Number of lines in file is: \", line)\n",
+        "\n",
+        "array = []\n",
+        "for i in range(line):\n",
+        "\tarray.append(file.readline())\n",
+        "\n",
+        "array\n"
+      ],
+      "execution_count": 17,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Number of lines in file is:  5\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "['breakthrough drug for schizophrenia\\n',\n",
+              " 'new schizophrenia drug\\n',\n",
+              " 'new approach for treatment of schizophrenia\\n',\n",
+              " 'new hopes for schizophrenia patients \\n',\n",
+              " '']"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 17
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "4pYs4cP4ogQF",
+        "outputId": "58003718-a0e3-41e9-e0fa-c41fff39d630"
+      },
+      "source": [
+        "from nltk.tokenize import word_tokenize\n",
+        "import nltk\n",
+        "from nltk.corpus import stopwords\n",
+        "nltk.download('stopwords')\n",
+        "\n",
+        "for i in range(1):\n",
+        "\ttext_tokens = word_tokenize(read)\n",
+        "\n",
+        "tokens_without_sw = [\n",
+        "\tword for word in text_tokens if not word in stopwords.words()]\n",
+        "\n",
+        "print(tokens_without_sw)\n"
+      ],
+      "execution_count": 18,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "[nltk_data] Downloading package stopwords to /root/nltk_data...\n",
+            "[nltk_data]   Package stopwords is already up-to-date!\n",
+            "['breakthrough', 'schizophrenia', 'new', 'schizophrenia', 'new', 'approach', 'treatment', 'schizophrenia', 'new', 'hopes', 'schizophrenia', 'patients']\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "4H5b4ZiRrCl3",
+        "outputId": "bca68fbc-3201-4cdc-9d54-e24e357a0340"
+      },
+      "source": [
+        "dict = {}\n",
+        "\n",
+        "for i in range(line):\n",
+        "\tcheck = array[i].lower()\n",
+        "\tfor item in tokens_without_sw:\n",
+        "\n",
+        "\t\tif item in check:\n",
+        "\t\t\tif item not in dict:\n",
+        "\t\t\t\tdict[item] = []\n",
+        "\n",
+        "\t\t\tif item in dict:\n",
+        "\t\t\t\tdict[item].append(i+1)\n",
+        "\n",
+        "dict\n"
+      ],
+      "execution_count": 16,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "{'approach': [3],\n",
+              " 'breakthrough': [1],\n",
+              " 'hopes': [4],\n",
+              " 'new': [2, 2, 2, 3, 3, 3, 4, 4, 4],\n",
+              " 'patients': [4],\n",
+              " 'schizophrenia': [1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4],\n",
+              " 'treatment': [3]}"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 16
+        }
+      ]
+    }
+  ]
+}
